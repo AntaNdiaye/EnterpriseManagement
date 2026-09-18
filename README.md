@@ -40,17 +40,3 @@ A dashboard for a small business owner and manager to track revenue, expenses, a
    npm run dev
    ```
    Visit http://localhost:3000
-
-## Current state
-
-The dashboard, transactions, and revenue-by-person pages currently render with sample data so you can see the UI before the database is wired up. Each page has a comment showing the Prisma query that should replace the sample data once you're logging real transactions. The AI insights page is already live — `/api/ai/insight` calls the Anthropic API directly, using a placeholder data summary that should be replaced with a real query for the signed-in business.
-
-Not yet built: authentication/role gating (NextAuth is installed but not configured), the "add transaction" form's submit handler, and the nightly job for proactive AI insights.
-
-## Deploying
-
-1. Push this repo to GitHub.
-2. Create a Postgres database (Supabase or Neon free tier is enough to start).
-3. Import the repo into Vercel, add the same environment variables from `.env` in the Vercel project settings.
-4. Add a Vercel "Build Command" override if needed: `prisma generate && next build`.
-5. Deploy. Vercel gives you a live URL and free HTTPS automatically.
