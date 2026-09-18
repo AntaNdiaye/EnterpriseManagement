@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  MANAGER
+}
+
+model Business {
+  id           String        @id @default(cuid())
+  name         String
+  createdAt    DateTime      @default(now())
+  users        User[]
+  transactions Transaction[]
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  role         Role          @default(MANAGER)
+  business     Business      @relation(fields: [businessId], references: [id])
+  businessId   String
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  date       DateTime
+  product    String
+  cost       Float    @default(0)
+  profit     Float    @default(0)
+  expenses   Float    @default(0)
+  category   String?
+  business   Business @relation(fields: [businessId], references: [id])
+  businessId String
+  loggedBy   User     @relation(fields: [userId], references: [id])
+  userId     String
+  createdAt  DateTime @default(now())
+}
+
+model AiInsight {
+  id         String   @id @default(cuid())
+  businessId String
+  kind       String
+  summary    String
+  createdAt  DateTime @default(now())
+}
